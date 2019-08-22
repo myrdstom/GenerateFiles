@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // POST- PDF generation and fetching of the data
-app.post('./create-pdf', (req, res) => {
+app.post('/create-pdf', (req, res) => {
     pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', err => {
         if (err) {
             res.send(Promise.reject());

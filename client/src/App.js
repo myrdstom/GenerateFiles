@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import { saveAs } from 'file-server';
+import { saveAs } from 'file-saver';
 
-import './App.css';
+
 
 class App extends Component {
     state = {
@@ -14,17 +14,18 @@ class App extends Component {
     handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
-    createAndDownloadPDF = () => {
-        axios
-            .post('/create-pdf', this.state)
-            .then(() => axios.get('/fetch-pdf', { responseType: 'blob' }))
-            .then(res => {
-                const pdfBlob = new Blob([res.data], {
-                    type: 'application/pdf',
-                });
-                saveAs(pdfBlob,'newPDF.pdf')
-            });
-    };
+    createAndDownloadPdf = () => {
+        axios.post('/create-pdf', this.state)
+            .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
+            .then((res) => {
+                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+                console.log(res.data,'nsdbfmnsdbnf');
+
+                saveAs(pdfBlob, `${this.state.name}.pdf`);
+            })
+    }
+
+
     render() {
         return (
             <div className="App">
@@ -50,9 +51,9 @@ class App extends Component {
                     type="text"
                     placeholder="Price 2"
                     name="price2"
-                    onChange="this.handleChange"
+                    onChange={this.handleChange}
                 />
-                <button onClick={this.createAndDownloadPDF}>
+                <button onClick={this.createAndDownloadPdf}>
                     Download PDF
                 </button>
             </div>

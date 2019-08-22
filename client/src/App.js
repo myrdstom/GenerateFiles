@@ -11,12 +11,20 @@ class App extends Component {
         price1: 0,
         price2: 0,
     };
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  createAndDownloadPDF = () =>{
-    axios.post('/create-pdf', this.state)
-  }
+    handleChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+    createAndDownloadPDF = () => {
+        axios
+            .post('/create-pdf', this.state)
+            .then(() => axios.get('/fetch-pdf', { responseType: 'blob' }))
+            .then(res => {
+                const pdfBlob = new Blob([res.data], {
+                    type: 'application/pdf',
+                });
+                saveAs(pdfBlob,'newPDF.pdf')
+            });
+    };
     render() {
         return (
             <div className="App">

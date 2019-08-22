@@ -13,19 +13,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // POST- PDF generation and fetching of the data
-app.post('./create-pdf', (req,res) =>{
-    pdf.create(pdfTemplate(req.data), {}).toFile('result.pdf', (err) =>{
-        if(err){
+app.post('./create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.data), {}).toFile('result.pdf', err => {
+        if (err) {
             return Promise.reject();
         }
-        return Promise.resolve()
-    })
-})
+        return Promise.resolve();
+    });
+});
 
 //GET - Send the generated PDF to the client
-app.get('/fetch-pdf', (req,res) =>{
-    res.sendFile(`${__dirname}/result.pdf`)
-})
+app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`);
+});
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
